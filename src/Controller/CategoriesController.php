@@ -49,5 +49,47 @@ class CategoriesController extends AbstractController
             "categories" => $categories,
             "formulaire" => $form->createView()
         ]);
+
+    }
+
+
+    #[Route('/categorie/modifier/{id}', name: 'categorie_modifier')]
+    public function modifierCategorie($id, ManagerRegistry $doctrine, Request $request)
+    {
+        //Récupérer la catégorie dans la BDD
+        $categorie = $doctrine->getRepository(Categorie::class)->find($id);
+
+        //si on n'a rien trouvé -> 404
+
+        if (!$categorie) {
+            throw $this->createNotFoundException("Aucune catégorie avec l'id $id");
+        }
+ 
+        //si on arrive la, c'est qu'on a trouvé une catégorie
+        //on crée le formulaire avec (il sera rempli avec ses valeurs)
+        $form = $this->createForm(CategorieType::class, $categorie);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // le handleRequest a rempli notre objet $vcategorieNew
+            // qui n'est plus vide
+            //pour sauvegarder, on va récupérer un entitymanager de doctrine
+            //qui comme son nom l'indique gère les identités
+            $em = $doctrine->getManager();
+            // on lui dit de la ranger dans la bdd
+            $em->persist($categorie);
+
+            //générer l'insert
+            $em->flush();
+
+
+        }
+
+        return $this->render("categories/modifier.html.twig", [
+            "categorie" => $categorie,
+            "formulaire" => $form->createView()
+        ]);
+
+
     }
 }
