@@ -5,11 +5,20 @@
 {% block body %}
     <div class="example-wrapper">
         <h1>Gestion des chaton en BDD</h1>
-        <ul>
+        <table class="table table-striped">
+            <tr>
+                <th>Titre</th>
+                <th>Description</th>
+                <th></th>
+            </tr>
             {% for c in categories %}
-                <li>{{ c.titre }}</li>
+                <tr>
+                    <td>{{ c.titre }}</td>
+                    <td>{{ c.description }}</td>
+                    <td></td>
+                </tr>
             {% endfor %}
-        </ul>
+        </table>
 
         <h2>Ajouter une catégorie</h2>
         {{ form(formulaire) }}
