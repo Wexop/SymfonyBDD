@@ -64,7 +64,7 @@ class CategoriesController extends AbstractController
         if (!$categorie) {
             throw $this->createNotFoundException("Aucune catégorie avec l'id $id");
         }
- 
+
         //si on arrive la, c'est qu'on a trouvé une catégorie
         //on crée le formulaire avec (il sera rempli avec ses valeurs)
         $form = $this->createForm(CategorieType::class, $categorie);
@@ -82,8 +82,11 @@ class CategoriesController extends AbstractController
             //générer l'insert
             $em->flush();
 
+            //retour à la page d'accueil
+            return $this->redirectToRoute("app_home");
 
         }
+
 
         return $this->render("categories/modifier.html.twig", [
             "categorie" => $categorie,
