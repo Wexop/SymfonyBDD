@@ -15,7 +15,9 @@
                 <tr>
                     <td>{{ c.titre }}</td>
                     <td>{{ c.description }}</td>
-                    <td></td>
+                    <td>
+                        <a class="btn btn-primary" href="{{ path("categorie_modifier", {"id":c.id}) }}">modifier</a>
+                    </td>
                 </tr>
             {% endfor %}
         </table>
