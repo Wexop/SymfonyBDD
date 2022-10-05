@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Categorie;
+use App\Form\CategorieSupprimerType;
 use App\Form\CategorieType;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -89,6 +90,49 @@ class CategoriesController extends AbstractController
 
 
         return $this->render("categories/modifier.html.twig", [
+            "categorie" => $categorie,
+            "formulaire" => $form->createView()
+        ]);
+
+
+    }
+
+    #[Route('/categorie/supprimer/{id}', name: 'categorie_supprimer')]
+    public function supprimerCategorie($id, ManagerRegistry $doctrine, Request $request)
+    {
+        //Récupérer la catégorie dans la BDD
+        $categorie = $doctrine->getRepository(Categorie::class)->find($id);
+
+        //si on n'a rien trouvé -> 404
+
+        if (!$categorie) {
+            throw $this->createNotFoundException("Aucune catégorie avec l'id $id");
+        }
+
+        //si on arrive la, c'est qu'on a trouvé une catégorie
+        //on crée le formulaire avec (il sera rempli avec ses valeurs)
+        $form = $this->createForm(CategorieSupprimerType::class, $categorie);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // le handleRequest a rempli notre objet $vcategorieNew
+            // qui n'est plus vide
+            //pour sauvegarder, on va récupérer un entitymanager de doctrine
+            //qui comme son nom l'indique gère les identités
+            $em = $doctrine->getManager();
+            // on lui dit de la supprimer de la BDD
+            $em->remove($categorie);
+
+            //générer l'insert
+            $em->flush();
+
+            //retour à la page d'accueil
+            return $this->redirectToRoute("app_home");
+
+        }
+
+
+        return $this->render("categories/supprimer.html.twig", [
             "categorie" => $categorie,
             "formulaire" => $form->createView()
         ]);
