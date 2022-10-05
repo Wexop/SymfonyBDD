@@ -43,7 +43,7 @@ class ChatonsController extends AbstractController
             $em->flush();
 
             //retour à la page d'accueil
-            return $this->redirectToRoute("app_home");
+            return $this->redirectToRoute("voir_chatons", ["id" => $chaton->getCategorie()->getId()]);
 
         }
 
@@ -106,7 +106,7 @@ class ChatonsController extends AbstractController
             $em->flush();
 
             //retour à la page d'accueil
-            return $this->redirectToRoute("app_home");
+            return $this->redirectToRoute("voir_chatons", ["id" => $chaton->getCategorie()->getId()]);
 
         }
 
@@ -149,7 +149,7 @@ class ChatonsController extends AbstractController
             $em->flush();
 
             //retour à la page d'accueil
-            return $this->redirectToRoute("app_home");
+            return $this->redirectToRoute("voir_chatons", ["id" => $chaton->getCategorie()->getId()]);
 
         }
 
