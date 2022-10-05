@@ -22,6 +22,8 @@
                                     Ce chat n'est pas stérile
                                 {% endif %}
                             </p>
+                            <a class="btn btn-primary mt-5" href="{{ path("modifier_chaton", {"id":chat.id}) }}">Modifier</a>
+                            <a class="btn btn-danger mt-5" href="{{ path("chatons_supprimer", {"id":chat.id}) }}">Supprimer</a>
                         </div>
                     </div>
                 </div>

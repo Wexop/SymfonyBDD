@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Supprimer chaton{% endblock %}
+
+{% block body %}
+    <div class="example-wrapper">
+        <h1>Voulez vous vraiment supprimer <i>{{ chaton.Nom }}</i> ?</h1>
+
+        {{ form(formulaire) }}
+
+    </div>
+{% endblock %}
+
