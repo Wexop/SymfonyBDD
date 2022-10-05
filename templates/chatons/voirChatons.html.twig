@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un chaton !{% endblock %}
+
+{% block body %}
+
+    <div class="example-wrapper">
+        <h1>Voici les chatons de la catégorie <i>{{ categorie.titre }}</i> !</h1>
+
+        <div class="flex-wrap" style="width: 100%; display: flex; flex-direction: row">
+
+            {% for chat in  chatons %}
+                <div class="col col-3">
+                    <div class="card m-1"><img src="{{ chat.Photo }}" alt=""
+                                               class="card-img-top">
+                        <div class="card-body">
+                            <h3 class="card-title">{{ chat.Nom }}</h3>
+                            <p>{% if chat.sterilize == 1 %}
+                                    Ce chat est Stérile !
+                                {% endif %}
+                                {% if chat.sterilize == 0 %}
+                                    Ce chat n'est pas stérile
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <a class="btn btn-primary mt-5" href="{{ path("chaton_ajouter") }}">Ajouter un chaton</a>
+
+
+    </div>
+{% endblock %}
