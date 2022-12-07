@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Chaton;
 use App\Entity\Proprietaire;
+use phpDocumentor\Reflection\Types\True_;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -17,11 +18,11 @@ class ProprietaireType extends AbstractType
         $builder
             ->add('Nom')
             ->add('Prenom')
-            ->add('Chaton_id', EntityType::class, [
-                "class" => Chaton::class, //choix de la classe lié
-                "choice_label" => "Nom", // choix de ce qui sera affiché comme texte
-                "mapped" => false,
+            ->add('Chatons_id', EntityType::class, [
+                "class" => Chaton::class,
+                "choice_label" => "Nom",
                 "multiple" => true,
+                "expanded" => true,
             ])
             ->add("OK", SubmitType::class, ["label" => "Ajouter"]);
         ;
