@@ -10,20 +10,13 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ProprietaireType extends AbstractType
+class ProprietaireSupprimerType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('Nom')
-            ->add('Prenom')
-            ->add('Chaton_id', EntityType::class, [
-                "class" => Chaton::class, //choix de la classe lié
-                "choice_label" => "Nom", // choix de ce qui sera affiché comme texte
-                "mapped" => false,
-                "multiple" => true,
-            ])
-            ->add("OK", SubmitType::class, ["label" => "Ajouter"]);
+
+            ->add("OK", SubmitType::class, ["label" => "Supprimer"]);
         ;
     }
 

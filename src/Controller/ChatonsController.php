@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Categorie;
 use App\Entity\Chaton;
+use App\Entity\Proprietaire;
 use App\Form\ChatonSupprimerType;
 use App\Form\ChatonType;
 use Doctrine\Persistence\ManagerRegistry;
@@ -70,6 +71,29 @@ class ChatonsController extends AbstractController
 
         return $this->render("chatons/voirChatons.html.twig", [
             "categorie" => $categorie,
+            "chatons" => $chatons
+        ]);
+
+
+    }
+
+    //pour les propriétaires
+
+    #[Route('/categorie/voirChatonsProprietaire/{id}', name: 'voir_chatons_proprietaire')]
+    public function voirChatonsProprietaire($id, ManagerRegistry $doctrine, Request $request)
+    {
+
+        $proprietaire = $doctrine->getRepository(Proprietaire::class)->find($id);
+        $chatons = $proprietaire->getChatonsId();
+
+
+        if (!$proprietaire) {
+            throw $this->createNotFoundException("Aucun propriétaire avec l'id $id");
+        }
+
+
+        return $this->render("chatons/voirChatonsProprietaire.html.twig", [
+            "proprietaire" => $proprietaire,
             "chatons" => $chatons
         ]);
 
