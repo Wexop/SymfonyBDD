@@ -23,7 +23,6 @@ class ChatonType extends AbstractType
                 "choice_label" => "titre", // choix de ce qui sera affiché comme texte
                 "multiple" => false,
                 "expanded" => false
-
             ])
             ->add("OK", SubmitType::class, ["label" => "OK"]);
     }

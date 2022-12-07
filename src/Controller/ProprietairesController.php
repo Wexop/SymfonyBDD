@@ -19,8 +19,6 @@ class ProprietairesController extends AbstractController
         $proprietaire = new Proprietaire();
         $form = $this->createForm(ProprietaireType::class, $proprietaire);
 
-
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -28,6 +26,7 @@ class ProprietairesController extends AbstractController
             $em = $doctrine->getManager();
 
             $em->persist($proprietaire);
+
             $em->flush();
 
 
@@ -40,5 +39,6 @@ class ProprietairesController extends AbstractController
             "proprietaires" => $proprietaire,
             "formulaire" => $form->createView()
         ]);
+
     }
 }

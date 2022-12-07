@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ChatonRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ChatonRepository::class)]
@@ -25,6 +27,14 @@ class Chaton
     #[ORM\ManyToOne(inversedBy: 'chatons')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Categorie $Categorie = null;
+
+    #[ORM\ManyToMany(targetEntity: Proprietaire::class, mappedBy: 'Chatons_id')]
+    private Collection $Proprietaires_id;
+
+    public function __construct()
+    {
+        $this->Proprietaires_id = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -75,6 +85,33 @@ class Chaton
     public function setCategorie(?Categorie $Categorie): self
     {
         $this->Categorie = $Categorie;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Proprietaire>
+     */
+    public function getProprietairesId(): Collection
+    {
+        return $this->Proprietaires_id;
+    }
+
+    public function addProprietairesId(Proprietaire $proprietairesId): self
+    {
+        if (!$this->Proprietaires_id->contains($proprietairesId)) {
+            $this->Proprietaires_id->add($proprietairesId);
+            $proprietairesId->addChatonsId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProprietairesId(Proprietaire $proprietairesId): self
+    {
+        if ($this->Proprietaires_id->removeElement($proprietairesId)) {
+            $proprietairesId->removeChatonsId($this);
+        }
 
         return $this;
     }
