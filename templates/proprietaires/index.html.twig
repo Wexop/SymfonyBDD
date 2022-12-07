@@ -18,7 +18,7 @@
                     <td>{{ p.nom }}</td>
                     <td>{{ p.prenom }}</td>
                     <td>
-                        {#<a class="btn btn-primary" href="{{ path("categorie_modifier", {"id":c.id}) }}">modifier</a>#}
+                        <a class="btn btn-primary" href="{{ path("modifier_proprietaire", {"id":p.id}) }}">modifier</a>
                     </td>
                     <td>
                         <a class="btn btn-danger" href="{{ path("proprietaire_supprimer", {"id":p.id}) }}">supprimer</a>

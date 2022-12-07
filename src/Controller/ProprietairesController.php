@@ -46,17 +46,13 @@ class ProprietairesController extends AbstractController
     #[Route('/proprietaire/supprimer/{id}', name: 'proprietaire_supprimer')]
     public function supprimerProprietaire($id, ManagerRegistry $doctrine, Request $request)
     {
-        //Récupérer la catégorie dans la BDD
         $proprietaire = $doctrine->getRepository(Proprietaire::class)->find($id);
 
-        //si on n'a rien trouvé -> 404
 
         if (!$proprietaire) {
             throw $this->createNotFoundException("Aucun proprietaire avec l'id $id");
         }
 
-        //si on arrive la, c'est qu'on a trouvé une catégorie
-        //on crée le formulaire avec (il sera rempli avec ses valeurs)
         $form = $this->createForm(ProprietaireSupprimerType::class, $proprietaire);
         $form->handleRequest($request);
 
@@ -70,13 +66,42 @@ class ProprietairesController extends AbstractController
             return $this->redirectToRoute("app_proprietaires");
 
         }
-
-
+        
         return $this->render("proprietaires/supprimer.html.twig", [
             "proprietaire" => $proprietaire,
             "formulaire" => $form->createView()
         ]);
 
+
+    }
+
+    #[Route('/proprietaires/modifierProprietaire/{id}', name: 'modifier_proprietaire')]
+    public function modifierProprietaire($id, ManagerRegistry $doctrine, Request $request)
+    {
+
+        $proprietaire = $doctrine->getRepository(Proprietaire::class)->find($id);
+
+        if (!$proprietaire) {
+            throw $this->createNotFoundException("Aucun proprietaire avec l'id $id");
+        }
+
+        $form = $this->createForm(ProprietaireType::class, $proprietaire);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $em = $doctrine->getManager();
+            $em->persist($proprietaire);
+
+            $em->flush();
+
+            return $this->redirectToRoute("app_proprietaires", ["id" => $proprietaire->getId()]);
+        }
+
+        return $this->render("proprietaires/modifierProprietaire.html.twig", [
+            "proprietaire" => $proprietaire,
+            "formulaire" => $form->createView()
+        ]);
 
     }
 }
